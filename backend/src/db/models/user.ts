@@ -2,8 +2,10 @@ import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { v4 as uuidv4 } from "uuid"
+import type { IUser, IUserMethods, UserModel } from "../../types/model/users.js";
 
-const user = new mongoose.Schema(
+
+const user = new mongoose.Schema<IUser, UserModel, IUserMethods>(
   {
     username: {
       type: String,
@@ -62,7 +64,7 @@ const user = new mongoose.Schema(
 
 user.pre("save", async function () {
   if (!this.isModified("password")) return
-  
+
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })

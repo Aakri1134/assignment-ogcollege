@@ -49,3 +49,5 @@ const mentor = new mongoose.Schema(
     versionKey: false,
   }
 )
+const Mentor = mongoose.model("Mentor", mentor)
+export default Mentor

@@ -27,5 +27,10 @@ const booking = new mongoose.Schema({
     reviewID : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Review'
-    },
+    }
+}, {
+    timestamps : true
 })
+
+const Booking = mongoose.model("Booking", booking)
+export default Booking

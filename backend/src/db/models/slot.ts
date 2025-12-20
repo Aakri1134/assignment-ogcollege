@@ -25,3 +25,5 @@ const slot = new mongoose.Schema({
     required: true,
   },
 })
+const Slot = mongoose.model("Slot", slot)
+export default Slot

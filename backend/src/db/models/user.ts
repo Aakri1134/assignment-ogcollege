@@ -18,10 +18,10 @@ const user = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    wallet : {
-        type : Number,
-        required : true,
-        default : 0
+    wallet: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     emailVerified: {
       type: Boolean,
@@ -45,16 +45,16 @@ const user = new mongoose.Schema(
       required: true,
       default: "user",
     },
-    bookings : {
-        type : new mongoose.Schema({
-            bookingID : {
-
-            }
-        })
-    }
+    bookings: {
+      type: new mongoose.Schema({
+        bookingID: {},
+      }),
+    },
   },
   {
     timestamps: true,
-    versionKey : false
+    versionKey: false,
   }
 )
+const User = mongoose.model("User", user)
+export default User

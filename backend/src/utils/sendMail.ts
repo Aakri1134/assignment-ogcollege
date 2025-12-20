@@ -1,7 +1,8 @@
 import { Queue } from "bullmq"
-import { Redis } from "ioredis"
 import { config } from "dotenv"
 import handleFailure from "./handleFailures.js"
+
+config()
 
 const redis_url = process.env.REDIS_URL
 if (redis_url === undefined) {
@@ -9,13 +10,10 @@ if (redis_url === undefined) {
   process.exit(1)
 }
 
-const redis = new Redis(redis_url)
-
-// for a more scalable system I qill separate the mails according to roles
+// for a more scalable system I will separate the mails according to roles
 const EmailQueue = new Queue("email", {
   connection: {
-    host: "myredis.taskforce.run",
-    port: 32856,
+    url : redis_url
   },
 })
 
@@ -26,6 +24,13 @@ email : string,
 code : string
 }
 */
-export async function sendVerificationEmail(email: String, code: string) {
-  EmailQueue.add("verification", { fails: 0, email, code })
+export async function enqueueVerificationEmail(email: string, code: string) {
+  await EmailQueue.add(
+  "verification",
+  { email, code },
+  {
+    attempts: 3,
+    backoff: { type: "exponential", delay: 5000 }
+  }
+)
 }

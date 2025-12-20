@@ -1,10 +1,10 @@
 import User from "../../db/models/user.js";
 import {Router} from "express"
-import { sendVerificationEmail } from "../../utils/sendMail.js";
+import { enqueueVerificationEmail } from "../../utils/sendMail.js";
 const router = Router()
 
-// works
-router.post("/register", async (req, res) => {
+
+router.post("/", async (req, res) => {
   let { username, email, password } = req.body;
 
 
@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User already exists" });
+      return res.status(400).json({ success : true, msg: "Email already in use" });
     }
 
     user = new User({
@@ -44,14 +44,14 @@ router.post("/register", async (req, res) => {
 
     const verificationToken = user.generateVerificationToken();
 
-    await Promise.all([user.save(), sendVerificationEmail(email, verificationToken)]);
+    await Promise.all([user.save(), enqueueVerificationEmail(email, verificationToken)]);
 
     // add queue and error handler later
 
     const token = user.generateAuthToken();
 
     res.json({
-      token,
+      success : true,
       user: {
         id: user._id,
         username: user.username,
@@ -63,7 +63,7 @@ router.post("/register", async (req, res) => {
 
   } catch (err) {
     console.error((err as Error).message);
-    res.status(401).json({ error: (err as Error).message });
+    res.status(401).json({ success : false, error: (err as Error).message });
   }
 });
 

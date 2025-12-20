@@ -14,8 +14,7 @@ export interface IUser {
   bookings?: {
     bookingID: any;
   };
-  verificationToken?: string;
-  verificationTokenExpires?: number;
+  googleRefreshToken: String;
 }
 
 export interface IUserMethods {

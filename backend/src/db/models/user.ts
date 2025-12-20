@@ -55,6 +55,9 @@ const user = new mongoose.Schema<IUser, UserModel, IUserMethods>(
         bookingID: {},
       }),
     },
+    googleRefreshToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -79,7 +82,7 @@ user.methods.generateAuthToken = function () {
   return jwt.sign(
     { id: this._id, email: this.email, emailVerified: this.emailVerified },
     JWT_SECRET,
-    { expiresIn: "1d" }
+    { expiresIn: "7d" }
   )
 }
 
@@ -99,9 +102,6 @@ user.methods.generateVerificationToken = function () {
     JWT_SECRET,
     { expiresIn: "1d" }
   )
-
-  this.verificationToken = verificationToken
-  this.verificationTokenExpires = Date.now() + 24 * 60 * 60 * 1000 // 24 hours
 
   return verificationToken
 }

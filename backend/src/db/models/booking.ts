@@ -23,14 +23,16 @@ const booking = new mongoose.Schema({
         type : String,
         enum : ["completed", "missed", "upcoming", "cancelled"],
         default : "upcoming"
-    },
-    reviewID : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Review'
     }
 }, {
     timestamps : true
 })
+
+booking.index(
+  { mentor: 1, startTime: 1 },
+  { unique: true }
+);
+
 
 const Booking = mongoose.model("Booking", booking)
 export default Booking

@@ -7,7 +7,7 @@ export const connectDB = async () => {
       process.exit(1)
     }
     const connection = await mongoose.connect(mongoURL, {
-      dbName: "linkfixerDB",
+      dbName: "ogCollegeDB",
     })
     console.log(`MongoDB connected`)
   } catch (err) {

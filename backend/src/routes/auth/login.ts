@@ -1,9 +1,10 @@
 import { Router } from "express"
 import User from "../../db/models/user.js"
+import { looseRateLimit } from "../../middleware/rateLimiting.js"
 
 const router = Router()
 
-router.post("/", async (req, res) => {
+router.post("/", looseRateLimit, async (req, res) => {
   const { email, password } = req.body
 
   try {

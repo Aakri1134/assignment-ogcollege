@@ -33,10 +33,6 @@ const slot = new mongoose.Schema({
       },
     }),
   },
-  timezone: {
-    type: String,
-    default: "IST",
-  },
   price: {
     type: Number,
     required: true,

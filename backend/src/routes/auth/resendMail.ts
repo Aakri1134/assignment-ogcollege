@@ -1,10 +1,11 @@
 import { Router } from "express";
 import User from "../../db/models/user.js";
 import { enqueueVerificationEmail } from "../../utils/sendMail.js";
+import { strictRateLimit } from "../../middleware/rateLimiting.js";
 
 
 const router = Router()
-router.post("/", async (req, res) => {
+router.post("/", strictRateLimit, async (req, res) => {
   const { email } = req.body;
 
   try {

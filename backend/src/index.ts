@@ -7,16 +7,20 @@ import authRouter from "./routes/auth/index.js"
 import { enqueueVerificationEmail } from "./utils/sendMail.js"
 import staticLoginRoute from "./routes/staticLogin.js"
 import mentorRoute from "./routes/mentor/index.js"
-
+import scheduleRouter from "./routes/schedule.js"
+import bookingRoute from "./routes/booking.js"
 dotenv.config()
 await connectDB()
 
 const app = express()
 const PORT = process.env.PORT
 
+app.set('trust proxy', true)
 app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/booking", bookingRoute)
 
 app.post("/send-mail", async (req, res) => {
   const {email} = req.body
@@ -36,6 +40,8 @@ app.get("/health", (req, res) => {
     msg: "OK",
   })
 })
+
+app.use("/schedule", scheduleRouter);
 
 app.use("/auth", authRouter)
 

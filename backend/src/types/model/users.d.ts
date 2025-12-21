@@ -15,6 +15,7 @@ export interface IUser {
     bookingID: any;
   };
   googleRefreshToken: String;
+  timezone: String;
 }
 
 export interface IUserMethods {

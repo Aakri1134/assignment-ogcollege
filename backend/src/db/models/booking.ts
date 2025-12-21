@@ -23,6 +23,12 @@ const booking = new mongoose.Schema({
         type : String,
         enum : ["completed", "missed", "upcoming", "cancelled"],
         default : "upcoming"
+    },
+    calendarEventID : {
+        type : String
+    },
+    meetLink : {
+        type : String
     }
 }, {
     timestamps : true

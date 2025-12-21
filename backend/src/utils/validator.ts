@@ -18,15 +18,6 @@ export const validator: Function = (value, type) => {
       const usernameRe = /^[a-zA-Z0-9_]{3,20}$/
       return usernameRe.test(value)
     }
-    case "url": {
-      try {
-        const url = new URL(value)
-        if (url.protocol !== "http" && url.protocol !== "https") return false
-        return true
-      } catch (err) {
-        return false
-      }
-    }
     default:
       return false
   }

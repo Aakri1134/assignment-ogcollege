@@ -1,5 +1,5 @@
 import { Worker } from "bullmq"
-import { sendVerificationEmail } from "./utils/mail.js"
+import { sendConfirmationEmail, sendVerificationEmail } from "./utils/mail.js"
 import handleFailure from "./utils/handleFailures.js"
 import { config } from "dotenv"
 
@@ -11,7 +11,6 @@ if (redis_url === undefined) {
   process.exit(1)
 }
 
-
 const emailWorker = new Worker(
   "email",
   async (job) => {
@@ -21,7 +20,18 @@ const emailWorker = new Worker(
         const code = job.data.code
         await sendVerificationEmail(email, code)
         return ""
-        break
+      case "confirmation":
+        console.log("Sending confirmation mail")
+        const mentorEmail = job.data.mentorEmail
+        const userEmail = job.data.userEmail
+        const mentorName = job.data.mentorName
+        const userName = job.data.userName
+        const startTime = job.data.startTime
+        const endTime = job.data.endTime
+        const meetLink = job.data.meetLink
+        console.log("Sending confirmation mail :: ", job.data)
+        await sendConfirmationEmail(mentorName, userName, startTime, endTime, meetLink, userEmail, mentorEmail)
+        return ""
       default:
         handleFailure("major", `INVALID DATA ::\n${job.name} ::\n ${job.data}`)
     }
@@ -34,7 +44,7 @@ const emailWorker = new Worker(
 )
 
 emailWorker.on("failed", (job) => {
-    if(job?.attemptsMade && job?.attemptsMade >= 3){
-        handleFailure("basic", `Email not sent :: ${job.data}`)
-    }
+  if (job?.attemptsMade && job?.attemptsMade >= 3) {
+    handleFailure("basic", `Email not sent :: ${job.data}`)
+  }
 })

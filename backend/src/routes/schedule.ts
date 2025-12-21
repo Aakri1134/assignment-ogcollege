@@ -52,7 +52,7 @@ export async function createMentorEvent({
   }
 }
 
-router.post("/", verifyJWT, async (req, res) => {
+router.post("/", strictRateLimit, verifyJWT, async (req, res) => {
   const userID = req.user?.id
   if (!userID) {
     return res.status(403).json({

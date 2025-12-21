@@ -4,9 +4,11 @@ import signupRoute from "./signup.js"
 import verifyMailRoute from "./verifyMail.js"
 import resendMailRoute from "./resendMail.js"
 import googleRoute from "./google.js"
+import inputValidation from "../../middleware/inputValidation.js";
 
 const router = Router()
 
+router.use(inputValidation)
 router.use("/login", loginRouter)
 router.use("/signup", signupRoute)
 router.use("/verify-email", verifyMailRoute)

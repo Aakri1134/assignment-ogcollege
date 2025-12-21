@@ -1,0 +1,43 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/dist
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "mailer"
+    env_file: 
+      - ".env"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${PORT}
+      - EMAIL=${EMAIL}
+      - PASSWORD=${PASSWORD}
+      - MONGO_URI=${MONGO_URI}
+      - REDIS_URL=${REDIS_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+  mailer:
+    build:
+      context: ./mailer
+      dockerfile: Dockerfile
+    volumes:
+      - ./mailer:/src
+      - /src/node_modules
+      - /src/dist
+    env_file: 
+      - ".env"
+    environment:
+    - JWT_SECRET=${JWT_SECRET}
+    - PORT=${PORT}
+    - EMAIL=${EMAIL}
+    - PASSWORD=${PASSWORD}
+    - BACKEND_URL=${BACKEND_URL}
+    - MONGO_URI=${MONGO_URI}
+    - REDIS_URL=${REDIS_URL}

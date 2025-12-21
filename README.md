@@ -22,6 +22,11 @@ npm install
 npm run dev
 ```
 
+### To run using docker
+```
+docker compose up --build
+```
+
 ## Other Requirements
 
 To run the backend and mailer you must add a env file, an example of which is given as .env.example in the required directory.
@@ -40,5 +45,5 @@ A brief description on the requirements
 
 
 ## Relevant Links
-- [Link to Postman Collection](https://www.postman.com/altimetry-operator-83471468/workspace/aakrisht-public-workspace/collection/32739631-2daee71c-5597-49af-9e55-3e92ef40eaa3?action=share&creator=32739631)
+- [Link to Postman Collection](https://www.postman.com/altimetry-operator-83471468/workspace/aakrisht-public-workspace/collection/32739631-2daee71c-5597-49af-9e55-3e92ef40eaa3?action=share&creator=32739631&active-environment=32739631-9f8a3cff-b905-4c0a-85bd-f97b98bb67fb)
 - [Demo Video](https://drive.google.com/file/d/1aRM_Q7Q6JNZltftdBYm5Vr6VubFA-aaa/view?usp=sharing)
